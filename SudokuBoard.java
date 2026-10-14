@@ -53,6 +53,20 @@ public class SudokuBoard {
       return sBoard;
    }
    
+   private boolean isVald(String[][] board){
+       Set<String> checker = new Set<String>;
+       Set<String> duplicate = new Set<String>;
+       
+       for(int r = 0; r < board.length(); r++){
+           if(checker.contains(board[r]){
+               duplicate.add(board[r]);
+           } else{
+               checker.add(board[r]);
+           }
+           return duplicate.isEmpty();
+       } 
+       
+   }
    
    //toString
    public String toString() {
