@@ -53,19 +53,24 @@ public class SudokuBoard {
       return sBoard;
    }
    
-   private boolean isVald(String[][] board){
-       Set<String> checker = new Set<String>;
-       Set<String> duplicate = new Set<String>;
-       
-       for(int r = 0; r < board.length(); r++){
-           if(checker.contains(board[r]){
-               duplicate.add(board[r]);
-           } else{
-               checker.add(board[r]);
-           }
-           return duplicate.isEmpty();
-       } 
-       
+   public boolean isValid() {       
+     // row checks
+     for(int r = 0; r < board.length; r++){
+         Set<String> checkerRow = new HashSet<String>();
+         Set<String> duplicateRow = new HashSet<String>();
+
+         for( int c = 0; c < board.length; c++){
+             if(checkerRow.contains(board[r][c])){
+                 duplicateRow.add(board[r][c]);
+             } else{
+                 checkerRow.add(board[r][c]);
+             }
+         }
+         if(!duplicateRow.isEmpty()) {
+            return false;
+         }
+     } 
+     return true;
    }
    
    //toString
