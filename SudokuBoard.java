@@ -64,6 +64,8 @@ public class SudokuBoard {
        for(int r = 0; r < board.length; r++){
            Set<String> checkerRow = new HashSet<String>();
            Set<String> duplicateRow = new HashSet<String>();
+           Set<String> checkerCol = new HashSet<String>();
+           Set<String> duplicateCol = new HashSet<String>();
 
            for( int c = 0; c < board.length; c++){
                //check for characters which are not allowed in the board.
@@ -74,30 +76,18 @@ public class SudokuBoard {
                //check the rows for duplicate values.
                if(checkerRow.contains(board[c][r])){
                    duplicateRow.add(board[c][r]);
-               } else{
+               } else if (checkerCol.contains(board[r][c])){
+                   duplicateCol.add(board[r][c]);
+               } else {
                    checkerRow.add(board[c][r]);
+                   checkerCol.add(board[r][c]);
                }
            }
            if(!duplicateRow.isEmpty()) {
               return false;
            }
        } 
-       // col check
-       for(int r = 0; r < board.length; r++){
-           Set<String> checkerCol = new HashSet<String>();
-           Set<String> duplicateCol = new HashSet<String>();
-  
-           for(int c = 0; c < board.length; c++){
-               if(checkerCol.contains(board[r][c])){
-                   duplicateCol.add(board[r][c]);
-               } else{
-                   checkerCol.add(board[r][c]);
-               }
-           }
-           if(!duplicateCol.isEmpty()) {
-              return false;
-           }
-       }
+       
        return true;
      }
    
