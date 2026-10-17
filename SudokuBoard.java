@@ -92,11 +92,42 @@ public class SudokuBoard {
                return false;
            }
            
+       //miniSquare checker.    
+       for(int i = 1; i < 10; i++){
+           Set<String> checkerMini = new HashSet<String>();
+           Set<String> duplicateMini = new HashSet<String>();
+           String[][] currentMini = miniSquare(i);
+           
+           for(int row = 0; row < currentMini.length; row++){
+               for(int col = 0; col < currentMini[row].length; col++){
+                   if (checkerMini.contains(currentMini[row][col]) && !zeroCharacters.contains(currentMini[row][col])){
+                       duplicateMini.add(currentMini[row][col]);
+                   } 
+                   
+                   checkerMini.add(currentMini[row][col]);
+               }
+           }
+           if(!duplicateMini.isEmpty()) {
+               return false;
+           }
+       }
        } 
        
        return true;
      }
-   
+     
+    private String[][] miniSquare(int spot) {
+        String[][] mini = new String[3][3];
+        for(int r = 0; r < 3; r++) {
+           for(int c = 0; c < 3; c++) {
+              // whoa - wild! This took me a solid hour to figure out (at least)
+              // This translates between the "spot" in the 9x9 Sudoku board
+              // and a new mini square of 3x3
+              mini[r][c] = board[(spot - 1) / 3 * 3 + r][(spot - 1) % 3 * 3 + c];
+           }
+        }
+        return mini;
+   }
    //toString
    public String toString() {
       return printBoard();  
