@@ -7,6 +7,10 @@ public class SudokuBoard {
    //fields
    protected String[][] board;
    
+   //create a set of all the allowed strings within the board for refrence later.
+   Set<String> allowedCharacters = new HashSet<String>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-", "_", "0"));
+   
+   
 
    //constructor
    public SudokuBoard(String FileName) {
@@ -53,25 +57,49 @@ public class SudokuBoard {
       return sBoard;
    }
    
-   public boolean isValid() {       
-     // row checks
-     for(int r = 0; r < board.length; r++){
-         Set<String> checkerRow = new HashSet<String>();
-         Set<String> duplicateRow = new HashSet<String>();
+   public boolean isValid() {  
+       
+        
+       // row checks
+       for(int r = 0; r < board.length; r++){
+           Set<String> checkerRow = new HashSet<String>();
+           Set<String> duplicateRow = new HashSet<String>();
 
-         for( int c = 0; c < board.length; c++){
-             if(checkerRow.contains(board[r][c])){
-                 duplicateRow.add(board[r][c]);
-             } else{
-                 checkerRow.add(board[r][c]);
-             }
-         }
-         if(!duplicateRow.isEmpty()) {
-            return false;
-         }
-     } 
-     return true;
-   }
+           for( int c = 0; c < board.length; c++){
+               //check for characters which are not allowed in the board.
+               if(!allowedCharacters.contains(board[r][c])){
+                   return false;
+               }
+               
+               //check the rows for duplicate values.
+               if(checkerRow.contains(board[r][c])){
+                   duplicateRow.add(board[r][c]);
+               } else{
+                   checkerRow.add(board[r][c]);
+               }
+           }
+           if(!duplicateRow.isEmpty()) {
+              return false;
+           }
+       } 
+       // col check
+       for(int r = 0; r < board.length; r++){
+           Set<String> checkerCol = new HashSet<String>();
+           Set<String> duplicateCol = new HashSet<String>();
+  
+           for( int c = 0; c < board.length; c++){
+               if(checkerCol.contains(board[r][c])){
+                   duplicateCol.add(board[r][c]);
+               } else{
+                   checkerCol.add(board[r][c]);
+               }
+           }
+           if(!duplicateCol.isEmpty()) {
+              return false;
+           }
+       }
+       return true;
+     }
    
    //toString
    public String toString() {
