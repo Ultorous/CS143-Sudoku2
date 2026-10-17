@@ -10,6 +10,9 @@ public class SudokuBoard {
    //create a set of all the allowed strings within the board for refrence later.
    Set<String> allowedCharacters = new HashSet<String>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-", "_", "0"));
    
+   //create a set of the Strings representing zero.
+   Set<String> zeroCharacters = new HashSet<String>(Arrays.asList(".", "-", "_", "0"));
+   
    
 
    //constructor
@@ -66,26 +69,29 @@ public class SudokuBoard {
            Set<String> duplicateRow = new HashSet<String>();
            Set<String> checkerCol = new HashSet<String>();
            Set<String> duplicateCol = new HashSet<String>();
+           
 
            for( int c = 0; c < board.length; c++){
                //check for characters which are not allowed in the board.
-               if(!allowedCharacters.contains(board[c][r])){
+               if(!allowedCharacters.contains(board[r][c])){
                    return false;
                }
                
                //check the rows for duplicate values.
-               if(checkerRow.contains(board[c][r])){
-                   duplicateRow.add(board[c][r]);
-               } else if (checkerCol.contains(board[r][c])){
-                   duplicateCol.add(board[r][c]);
-               } else {
-                   checkerRow.add(board[c][r]);
-                   checkerCol.add(board[r][c]);
+               if(checkerRow.contains(board[r][c]) && !zeroCharacters.contains(board[r][c])){
+                   duplicateRow.add(board[r][c]);
                }
+               if (checkerCol.contains(board[c][r]) && !zeroCharacters.contains(board[c][r])){
+                   duplicateCol.add(board[c][r]);
+               } 
+               
+               checkerRow.add(board[r][c]);
+               checkerCol.add(board[c][r]);
+               }
+           if(!duplicateRow.isEmpty() || !duplicateCol.isEmpty()) {
+               return false;
            }
-           if(!duplicateRow.isEmpty()) {
-              return false;
-           }
+           
        } 
        
        return true;
