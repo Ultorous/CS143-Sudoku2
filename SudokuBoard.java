@@ -11,7 +11,7 @@ public class SudokuBoard {
    Set<String> allowedCharacters = new HashSet<String>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "-", "_", "0"));
    
    //create a set of the Strings representing zero.
-   Set<String> zeroCharacters = new HashSet<String>(Arrays.asList(".", "-", "_", "0"));
+   Set<String> zeroCharacters = new HashSet<String>(Arrays.asList(".", "-", "_", "0", " "));
    
    
 
