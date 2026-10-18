@@ -63,8 +63,10 @@ public class SudokuBoard {
    public boolean isValid() {  
        
         
-       // row checks
+       //a nested for loop can be used for most of isValid()
        for(int r = 0; r < board.length; r++){
+       
+           //establish sets used to determine duplicate values.
            Set<String> checkerRow = new HashSet<String>();
            Set<String> duplicateRow = new HashSet<String>();
            Set<String> checkerCol = new HashSet<String>();
@@ -72,12 +74,13 @@ public class SudokuBoard {
            
 
            for( int c = 0; c < board.length; c++){
+           
                //check for characters which are not allowed in the board.
                if(!allowedCharacters.contains(board[r][c])){
                    return false;
                }
                
-               //check the rows for duplicate values.
+               //check the rows and columns for duplicate values.
                if(checkerRow.contains(board[r][c]) && !zeroCharacters.contains(board[r][c])){
                    duplicateRow.add(board[r][c]);
                }
@@ -88,11 +91,13 @@ public class SudokuBoard {
                checkerRow.add(board[r][c]);
                checkerCol.add(board[c][r]);
                }
+               
            if(!duplicateRow.isEmpty() || !duplicateCol.isEmpty()) {
                return false;
-           }
-           
-       //miniSquare checker.    
+           }    
+       } 
+       
+       //miniSquare checker.This uses another nested for loop to check each mini square.
        for(int i = 1; i < 10; i++){
            Set<String> checkerMini = new HashSet<String>();
            Set<String> duplicateMini = new HashSet<String>();
@@ -107,15 +112,17 @@ public class SudokuBoard {
                    checkerMini.add(currentMini[row][col]);
                }
            }
+           
            if(!duplicateMini.isEmpty()) {
                return false;
            }
        }
-       } 
        
+       //if all the checks pass, then isValid is true.
        return true;
-     }
+    }
      
+    //the provided miniSquare helper method adjusted for String[][]
     private String[][] miniSquare(int spot) {
         String[][] mini = new String[3][3];
         for(int r = 0; r < 3; r++) {
@@ -128,6 +135,7 @@ public class SudokuBoard {
         }
         return mini;
    }
+   
    //toString
    public String toString() {
       return printBoard();  
