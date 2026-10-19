@@ -97,6 +97,7 @@ public class SudokuBoard {
            }    
        } 
        
+      
        //miniSquare checker.This uses another nested for loop to check each mini square.
        for(int i = 1; i < 10; i++){
            Set<String> checkerMini = new HashSet<String>();
@@ -121,7 +122,32 @@ public class SudokuBoard {
        //if all the checks pass, then isValid is true.
        return true;
     }
-     
+    
+    public boolean isSolved(){
+        Map<String, Integer> solvedChecker = new HashMap<String, Integer>();
+        
+        for(int r = 0; r < board.length; r++){
+            for(int c = 0; c < board[r].length; c++){
+                if(!solvedChecker.containsKey(board[r][c])){
+                    solvedChecker.put(board[r][c], 1);
+                } else {
+                    int oldValue = solvedChecker.get(board[r][c]);
+                    solvedChecker.put(board[r][c], oldValue + 1);
+                }
+            }
+        }
+        
+        for(String val : solvedChecker.keySet()) {
+            if(solvedChecker.get(val) != 9){
+                return false;
+            }
+            if(zeroCharacters.contains(val)){
+                return false;
+            }
+        }
+        return isValid();
+    }
+    
     //the provided miniSquare helper method adjusted for String[][]
     private String[][] miniSquare(int spot) {
         String[][] mini = new String[3][3];
